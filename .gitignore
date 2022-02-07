@@ -1,0 +1,10 @@
+*.pyc
+*.pickle
+*.pth
+log*
+__pycache__
+slurm*
+.vscode
+test*
+pr_results
+checkpoints
