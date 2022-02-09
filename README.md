@@ -11,14 +11,14 @@ The current version of this repository only contrains code for evaluation of our
 ## Method overview.
 Addressing the task of LiDAR-based place recognition in large scale environments using a point cloud retrieval based approach in an end-to-end setting, the *LoGG3D-Net* paper introduces the use of an additional training signal (local consistency loss) which guides the network towards learning local features which are consistent across revisits, hence leading to more repeatable global descriptors resulting in an overall improvement in place recognition performance. 
 
-![](./utils/docs/pipeline.png)
+![](./utils/docs/new_pipeline.png)
 
 
 
 ## Usage
 
 ### Set up environment
-This project has been tested on a systems with Ubuntu 18.04. Main dependencies include:
+This project has been tested on a system with Ubuntu 18.04. Main dependencies include:
 - [CUDA](https://developer.nvidia.com/cuda-toolkit) >= 10.2
 - [Pytorch](https://pytorch.org/) >= 1.9
 - [TorchSparse](https://github.com/mit-han-lab/torchsparse) = 1.4.0
@@ -77,7 +77,7 @@ python evaluation/evaluate.py \
 
 Visualization of true-positive point clouds with each point colored based on the t-SNE embedding of the local features extracted using our pre-trained model is shown below.
 
-<img src="./utils/docs/tsne_point_feat.png" width="500">
+![](./utils/docs/tsne_point_feat.png)
 
 ## Citation
 
