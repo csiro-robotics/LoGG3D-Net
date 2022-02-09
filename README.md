@@ -3,13 +3,15 @@
 
 This repository is an open-source implementation of the ICRA 2022 paper: [LoGG3D-Net: Locally Guided Global Descriptor Learning for 3D Place Recognition](https://arxiv.org/abs/2109.08336). 
 
-In this paper, we demonstrate that the inclusion of an additional training signal (local consistency loss) can guide the network  towards learning local features which are consistent across revisits, hence leading to more repeatable global descriptors resulting in an overall improvement in 3D place recognition performance. We formulate our approach in an end-to-end trainable architecture called LoGG3D-Net.
+In this paper, we demonstrate that the inclusion of an additional training signal (local consistency loss) can guide the network  towards learning local features which are consistent across revisits, hence leading to more repeatable global descriptors resulting in an overall improvement in 3D place recognition performance. We formulate our approach in an end-to-end trainable architecture called *LoGG3D-Net*.
 
 ## Note
 The current version of this repository only contrains code for evaluation of our pre-trained models needed for re-creating the experiments in the paper. The code for training will be released later. 
 
 ## Method overview.
-Addressing the task of LiDAR-based place recognition in large scale environments using a point cloud retrieval based approach in an end-to-end setting, the *LoGG3D-Net* paper introduces the use of an additional training signal (local consistency loss) which guides the network towards learning local features which are consistent across revisits, hence leading to more repeatable global descriptors resulting in an overall improvement in place recognition performance. 
+- Joint constraints for local and global descriptors during training. 
+- Inference on high-resolution point-clouds using Sparse Point-Voxel convolution to capture fine-grained detail. 
+- Feature aggregation using higher-oder pooling to better capture the distribution of local features. 
 
 ![](./utils/docs/new_pipeline.png)
 
