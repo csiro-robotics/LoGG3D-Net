@@ -2,8 +2,8 @@
 
 
 This repository is an open-source implementation of the ICRA 2022 paper: [LoGG3D-Net: Locally Guided Global Descriptor Learning for 3D Place Recognition](https://arxiv.org/abs/2109.08336). 
-
-In this paper, we demonstrate that the inclusion of an additional training signal (local consistency loss) can guide the network  towards learning local features which are consistent across revisits, hence leading to more repeatable global descriptors resulting in an overall improvement in 3D place recognition performance. We formulate our approach in an end-to-end trainable architecture called *LoGG3D-Net*.
+ 
+We introduce a local consistency loss that can be used in an end-to-end global descriptor learning setting to enforce consistency of the local embeddings extracted from point clouds of the same location. We demonstrate how enforcing this property in the local features contributes towards better performance of the global descriptor in 3D place recognition. We formulate our approach in an end-to-end trainable architecture called *LoGG3D-Net*. 
 
 ## Note
 The current version of this repository only contrains code for evaluation of our pre-trained models needed for re-creating the experiments in the paper. The code for training will be released later. 
