@@ -13,9 +13,9 @@ The current version of this repository only contrains code for evaluation of our
 - Inference on high-resolution point-clouds using Sparse Point-Voxel convolution to capture fine-grained detail. 
 - Feature aggregation using higher-oder pooling to better capture the distribution of local features. 
 
+![](./utils/docs/pipeline.png)
+
 ![](./utils/docs/new_pipeline.png)
-
-
 
 ## Usage
 
@@ -76,6 +76,11 @@ python evaluation/evaluate.py \
     --skip_time 90
 ```
 
+Qualitative visualizations of top-1 retrievals on KITTI 08 and MulRan DCC 03:
+
+<img src="https://github.com/csiro-robotics/LoGG3D-Net/blob/main/utils/docs/kitti_08.gif" >  
+
+<img src="https://github.com/csiro-robotics/LoGG3D-Net/blob/main/utils/docs/mulran_dcc03.gif" >  
 
 Visualization of true-positive point clouds with each point colored based on the t-SNE embedding of the local features extracted using our pre-trained model is shown below.
 
