@@ -6,7 +6,7 @@ import numpy as np
 import csv
 import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
 from config.eval_config import get_config_eval
 cfg = get_config_eval()
 basedir = cfg.mulran_dir

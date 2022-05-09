@@ -3,13 +3,16 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
 
 from utils.data_loaders.kitti.kitti_dataset import *
+from utils.data_loaders.kitti.kitti_sparse_dataset import *
 from utils.data_loaders.mulran.mulran_dataset import *
+from utils.data_loaders.mulran.mulran_sparse_dataset import *
 
 from torch.utils.data.sampler import Sampler
 import logging
 
 ALL_DATASETS = [
-    KittiDataset, MulRanDataset
+    KittiDataset, KittiTupleDataset, KittiSparseTupleDataset, KittiPointSparseTupleDataset, 
+    MulRanDataset, MulRanTupleDataset, MulRanSparseTupleDataset, MulRanPointSparseTupleDataset
 ]
 dataset_str_mapping = {d.__name__: d for d in ALL_DATASETS}
 
@@ -76,7 +79,7 @@ def make_data_loader(config, phase, batch_size, num_workers=0, shuffle=None, dis
       collation_type = 'tuple'
     if ('SparseTuple' in config.dataset): 
       collation_type = 'sparse_tuple'
-    if ('RegSparseTuple' in config.dataset):
+    if ('PointSparseTuple' in config.dataset):
       collation_type = 'reg_sparse_tuple'
   collation_fn = CollationFunctionFactory(collation_type, config.voxel_size, config.num_points)
 
@@ -106,7 +109,7 @@ def make_data_loader(config, phase, batch_size, num_workers=0, shuffle=None, dis
 
 if __name__ == "__main__":
   from config.eval_config import get_config_eval
-  from utils.visualization.o3d_tools import *
+  from utils.o3d_tools import *
   
   logger = logging.getLogger()
   cfg = get_config_eval()

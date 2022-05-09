@@ -9,7 +9,7 @@ import json
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../..'))
 from utils.data_loaders.pointcloud_dataset import *
-from utils.visualization.o3d_tools import *
+from utils.o3d_tools import *
 from utils.misc_utils import Timer
 
 class KittiDataset(PointCloudDataset):
@@ -92,6 +92,116 @@ class KittiDataset(PointCloudDataset):
 
     return (xyz0_th,
             meta_info)
+
+
+class KittiTupleDataset(KittiDataset):
+  r"""
+  Generate tuples (anchor, positives, negatives) using distance
+  Optional other_neg for quadruplet loss. 
+  """
+
+  def __init__(self,
+               phase,
+               random_rotation=False,
+               random_occlusion=False,
+               random_scale=False,
+               config=None):
+    self.root = root = config.kitti_dir#os.path.join(config.kitti_dir, 'dataset')
+    self.positives_per_query = config.positives_per_query
+    self.negatives_per_query = config.negatives_per_query
+    self.quadruplet = False
+    self.gp_rem = config.gp_rem
+    self.pnv_prep = config.pnv_preprocessing
+    if config.train_loss_function == 'quadruplet':
+      self.quadruplet = True
+
+    PointCloudDataset.__init__(self, phase, random_rotation, random_occlusion, random_scale, config)
+
+    logging.info("Initializing KittiTupleDataset")
+    logging.info(f"Loading the subset {phase} from {root}")
+
+    sequences = config.kitti_data_split[phase]
+    tuple_dir = os.path.join(os.path.dirname(__file__), '../../../config/kitti_tuples/')
+    self.dict_3m = json.load(open(tuple_dir + config.kitti_3m_json, "r"))
+    self.dict_20m = json.load(open(tuple_dir + config.kitti_20m_json, "r"))
+    self.kitti_seq_lens = config.kitti_seq_lens
+    for drive_id in sequences:
+      drive_id = int(drive_id)
+      fnames = glob.glob(root + '/sequences/%02d/velodyne/*.bin' % drive_id)
+      assert len(fnames) > 0, f"Make sure that the path {root} has data {drive_id}"
+      inames = sorted([int(os.path.split(fname)[-1][:-4]) for fname in fnames])
+
+      for query_id in inames:
+        positives = self.get_positives(drive_id, query_id)
+        negatives = self.get_negatives(drive_id, query_id)
+        self.files.append((drive_id, query_id, positives, negatives))
+
+  def get_positives(self, sq, index):
+    sq = str(int(sq))
+    assert sq in self.dict_3m.keys(), f"Error: Sequence {sq} not in json."
+    sq_1 = self.dict_3m[sq]
+    if str(int(index)) in sq_1:
+      positives = sq_1[str(int(index))]
+    else:
+      positives = []
+    if index in positives:
+      positives.remove(index)
+    return positives
+
+  def get_negatives(self, sq, index):
+    sq = str(int(sq))
+    assert sq in self.dict_20m.keys(), f"Error: Sequence {sq} not in json."
+    sq_2 = self.dict_20m[sq]
+    all_ids = set(np.arange(self.kitti_seq_lens[sq]))
+    neg_set_inv = sq_2[str(int(index))]
+    neg_set = all_ids.difference(neg_set_inv) 
+    negatives = list(neg_set)
+    if index in negatives:
+      negatives.remove(index)
+    return negatives
+  
+  def get_other_negative(self, drive_id, query_id, sel_positive_ids, sel_negative_ids):
+    # Dissimillar to all pointclouds in triplet tuple.
+    all_ids = range(self.kitti_seq_lens[str(drive_id)])
+    neighbour_ids = sel_positive_ids
+    for neg in sel_negative_ids:
+      neg_postives_files = self.get_positives(drive_id, neg)
+      for pos in neg_postives_files:
+        neighbour_ids.append(pos)
+    possible_negs = list(set(all_ids) - set(neighbour_ids))
+    assert len(possible_negs) > 0, f"No other negatives for drive {drive_id} id {query_id}"
+    other_neg_id = random.sample(possible_negs, 1)
+    return other_neg_id[0]
+
+  def __getitem__(self, idx):
+    drive_id, query_id = self.files[idx][0], self.files[idx][1]
+    positive_ids, negative_ids = self.files[idx][2], self.files[idx][3]
+
+    sel_positive_ids = random.sample(positive_ids, self.positives_per_query)
+    sel_negative_ids = random.sample(negative_ids, self.negatives_per_query)
+    positives, negatives, other_neg = [], [], None
+
+    query_th = self.get_pointcloud_tensor(drive_id, query_id)
+    for sp_id in sel_positive_ids:
+      positives.append(self.get_pointcloud_tensor(drive_id, sp_id))
+    for sn_id in sel_negative_ids:
+      negatives.append(self.get_pointcloud_tensor(drive_id, sn_id))
+
+    meta_info = {'drive': drive_id, 'query_id': query_id}
+
+    if not self.quadruplet:
+      return (query_th,
+              positives,
+              negatives,
+              meta_info)
+    else: #For Quadruplet Loss
+      other_neg_id = self.get_other_negative(drive_id, query_id, sel_positive_ids, sel_negative_ids) 
+      other_neg_th = self.get_pointcloud_tensor(drive_id, other_neg_id) 
+      return (query_th,
+              positives,
+              negatives,
+              other_neg_th,
+              meta_info)
 
 
 #####################################################################################

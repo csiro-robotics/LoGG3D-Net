@@ -5,8 +5,9 @@ This repository is an open-source implementation of the ICRA 2022 paper: [LoGG3D
  
 We introduce a local consistency loss that can be used in an end-to-end global descriptor learning setting to enforce consistency of the local embeddings extracted from point clouds of the same location. We demonstrate how enforcing this property in the local features contributes towards better performance of the global descriptor in 3D place recognition. We formulate our approach in an end-to-end trainable architecture called *LoGG3D-Net*. 
 
-## Note
-The current version of this repository only contrains code for evaluation of our pre-trained models needed for re-creating the experiments in the paper. The code for training will be released later. 
+## News
+- [2022-02-07] Evaluation code and pretrained models released.
+- [2022-05-16] Training code released.
 
 ## Method overview.
 - Joint constraints for local and global descriptors during training. 
@@ -52,11 +53,30 @@ unzip checkpoints.zip
 - Download the [KITTI odometry dataset](http://www.cvlibs.net/datasets/kitti/eval_odometry.php), the [MulRan dataset](https://sites.google.com/view/mulran-pr/dataset) and set the paths in ```config/eval_config.py```.
 - For the MulRan dataset, create ```scan_poses.csv``` files for each sequence using:
 ```bash
-python ./utils/data_loaders/mulran/mulran_save_scan_poses.py
+python ./utils/data_utils/mulran_save_scan_poses.py
 ```
 
 ### Training
-To be released.
+
+Before training:
+- Do offline mining of positive pairs for both datasets (at 3m and 20m):
+```bash
+python utils/data_utils/kitti_tuple_mining.py
+python utils/data_utils/mulran_tuple_mining.py
+``` 
+- Set the number of GPUs available:
+```bash
+_NGPU=1
+```
+
+Training:
+- eg. Default training parameters on Kitti:
+```bash
+torchpack dist-run -np ${_NGPU} python training/train.py \
+    --train_pipeline 'LOGG3D' \
+    --dataset 'KittiPointSparseTupleDataset'
+```
+- See ```config/train_config.py``` for all other training parameters.
 
 ### Evaluation
 For KITTI (eg. sequence 06):

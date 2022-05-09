@@ -11,7 +11,7 @@ import copy
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from utils.visualization.o3d_tools import *
+from utils.o3d_tools import *
 
 class PointCloudDataset(torch.utils.data.Dataset):
   def __init__(self,
@@ -125,6 +125,8 @@ class CollationFunctionFactory:
       self.collation_fn = self.collate_tuple
     elif collation_type == 'sparse_tuple':
       self.collation_fn = self.collate_sparse_tuple
+    elif collation_type == 'reg_sparse_tuple':
+      self.collation_fn = self.collate_reg_sparse_tuple
     elif collation_type == 'sparcify_list':
       self.collation_fn = self.sparcify_and_collate_list
     else:
@@ -172,6 +174,24 @@ class CollationFunctionFactory:
     else:
       return outputs
   
+  def collate_reg_sparse_tuple(self, list_data):
+    outputs = []    
+    for tuple_data in list_data:
+      contrastive_tuple = []
+      meta_info = None
+      for name in tuple_data.keys():
+        if isinstance(tuple_data[name], SparseTensor):
+          contrastive_tuple.append(tuple_data[name])
+        elif isinstance(tuple_data[name], (list, np.ndarray)):
+          contrastive_tuple.extend(tuple_data[name])
+        elif isinstance(tuple_data[name], dict):
+          meta_info = tuple_data[name]
+      outputs.append([sparse_collate(contrastive_tuple), meta_info])
+    if len(outputs) == 1:
+      return outputs[0]
+    else:
+      return outputs
+      
   def sparcify_and_collate_list(self, list_data):
     outputs = []
     if isinstance(list_data, SparseTensor):

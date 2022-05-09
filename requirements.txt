@@ -1,2 +1,4 @@
 open3d
 torchpack
+setuptools==59.5.0
+mpi4pi
