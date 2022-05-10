@@ -1,16 +1,18 @@
 import os
 import sys
 sys.path.append(os.path.dirname(__file__))
-
-from pipelines.LOGG3D import *
 from pipelines.PointNetVLAD import *
+from pipelines.LOGG3D import *
+
 
 def get_pipeline(pipeline_name):
     if pipeline_name == 'LOGG3D':
         pipeline = LOGG3D(output_dim=256)
     elif pipeline_name == 'PointNetVLAD':
-        pipeline = PointNetVLAD(global_feat=True, feature_transform=True, max_pool=False,output_dim=256, num_points=4096)
+        pipeline = PointNetVLAD(global_feat=True, feature_transform=True,
+                                max_pool=False, output_dim=256, num_points=4096)
     return pipeline
+
 
 if __name__ == '__main__':
     sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
@@ -21,10 +23,10 @@ if __name__ == '__main__':
 
     from utils.data_loaders.make_dataloader import *
     train_loader = make_data_loader(cfg,
-                                  cfg.train_phase,
-                                  cfg.batch_size,
-                                  num_workers=cfg.train_num_workers,
-                                  shuffle=True)
+                                    cfg.train_phase,
+                                    cfg.batch_size,
+                                    num_workers=cfg.train_num_workers,
+                                    shuffle=True)
     iterator = train_loader.__iter__()
     l = len(train_loader.dataset)
     for i in range(l):

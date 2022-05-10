@@ -7,9 +7,9 @@ We introduce a local consistency loss that can be used in an end-to-end global d
 
 ## News
 - [2022-02-07] Evaluation code and pretrained models released.
-- [2022-05-16] Training code released.
+- [2022-05-10] Training code released.
 
-## Method overview.
+## Method overview
 - Joint constraints for local and global descriptors during training. 
 - Inference on high-resolution point-clouds using Sparse Point-Voxel convolution to capture fine-grained detail. 
 - Feature aggregation using higher-oder pooling to better capture the distribution of local features. 
@@ -75,6 +75,12 @@ Training:
 torchpack dist-run -np ${_NGPU} python training/train.py \
     --train_pipeline 'LOGG3D' \
     --dataset 'KittiPointSparseTupleDataset'
+```
+- eg. Default training parameters on MulRan:
+```bash
+torchpack dist-run -np ${_NGPU} python training/train.py \
+    --train_pipeline 'LOGG3D' \
+    --dataset 'MulRanPointSparseTupleDataset'
 ```
 - See ```config/train_config.py``` for all other training parameters.
 

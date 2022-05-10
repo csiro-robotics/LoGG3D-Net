@@ -4,6 +4,7 @@ import numpy as np
 import torch.nn.functional as F
 import math
 
+
 class NetVLADLoupe(nn.Module):
     def __init__(self, feature_size, max_samples, cluster_size, output_dim,
                  gating=True, add_batch_norm=True, is_training=True):

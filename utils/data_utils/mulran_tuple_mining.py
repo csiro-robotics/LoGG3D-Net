@@ -7,6 +7,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
 from config.train_config import get_config
 cfg = get_config()
 
+
 def p_dist(pose1, pose2, threshold=3):
     dist = np.linalg.norm(pose1 - pose2)
     if abs(dist) <= threshold:
@@ -14,11 +15,13 @@ def p_dist(pose1, pose2, threshold=3):
     else:
         return False
 
+
 def t_dist(t1, t2, threshold=10):
     if abs(t1-t2) > threshold:
         return True
     else:
         return False
+
 
 def get_positive_dict(basedir, sequences, output_dir, d_thresh, t_thresh):
     positive_dict = {}
@@ -31,13 +34,14 @@ def get_positive_dict(basedir, sequences, output_dir, d_thresh, t_thresh):
 
     for sequence in sequences:
         print(sequence)
-        with open(basedir + sequence +'/scan_poses.csv', newline='') as f:
+        with open(basedir + sequence + '/scan_poses.csv', newline='') as f:
             reader = csv.reader(f)
             scan_poses = list(reader)
         scan_positions, scan_timestamps = [], []
 
         for scan_pose in scan_poses:
-            scan_position = [float(scan_pose[4]), float(scan_pose[8]), float(scan_pose[12])]
+            scan_position = [float(scan_pose[4]), float(
+                scan_pose[8]), float(scan_pose[12])]
             scan_positions.append(np.asarray(scan_position))
             scan_time = int(scan_pose[0])
             scan_timestamps.append(scan_time)
@@ -52,12 +56,14 @@ def get_positive_dict(basedir, sequences, output_dir, d_thresh, t_thresh):
                         positive_dict[sequence][t1] = []
                     positive_dict[sequence][t1].append(t2)
 
-    save_file_name = '{}/positive_sequence_D-{}_T-{}.json'.format(output_dir, d_thresh, t_thresh)
+    save_file_name = '{}/positive_sequence_D-{}_T-{}.json'.format(
+        output_dir, d_thresh, t_thresh)
     with open(save_file_name, 'w') as f:
         json.dump(positive_dict, f)
     print('Saved: ', save_file_name)
 
     return positive_dict
+
 
 #####################################################################################
 if __name__ == "__main__":
@@ -65,9 +71,10 @@ if __name__ == "__main__":
 
     basedir = cfg.mulran_dir
     sequences = ['KAIST/KAIST_01', 'KAIST/KAIST_02', 'KAIST/KAIST_03',
-                    'DCC/DCC_01', 'DCC/DCC_02', 'DCC/DCC_03',
-                    'Riverside/Riverside_01', 'Riverside/Riverside_02', 'Riverside/Riverside_03']
-    output_dir = os.path.join(os.path.dirname(__file__), '../../config/mulran_tuples/')
+                 'DCC/DCC_01', 'DCC/DCC_02', 'DCC/DCC_03',
+                 'Riverside/Riverside_01', 'Riverside/Riverside_02', 'Riverside/Riverside_03']
+    output_dir = os.path.join(os.path.dirname(
+        __file__), '../../config/mulran_tuples/')
 
     t_thresh = 0
     get_positive_dict(basedir, sequences, output_dir, 3, t_thresh)

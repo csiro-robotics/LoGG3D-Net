@@ -2,8 +2,8 @@ import os
 import sys
 import torch
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from loss.hard_contrastive import *
-from loss.point_contrastive import *
+from loss.global_loss import *
+from loss.local_consistency_loss import *
 
 def get_loss_function(cfg):
     if cfg.train_loss_function == 'triplet':
@@ -46,6 +46,3 @@ def get_scheduler(cfg, optimizer):
     else:
         raise NotImplementedError(cfg.scheduler)
     return scheduler
-
-def train_one_epoch(model, optimizer, loss_function, epoch):
-  print(' ')  

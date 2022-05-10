@@ -1,5 +1,3 @@
-# Based on: https://github.com/chrischoy/FCGF/blob/master/lib/trainer.py
-
 import os
 import sys
 import numpy as np
@@ -8,13 +6,15 @@ import torch.nn.functional as F
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from utils.misc_utils import pdist, hashM
 
+
 def point_contrastive_loss(F0, F1, positive_pairs, config,
-                                    num_pos=5192,
-                                    num_hn_samples=2048):
+                           num_pos=5192,
+                           num_hn_samples=2048):
     """
     Randomly select 'num-pos' positive pairs. 
     Find the hardest-negative (from a random subset of num_hn_samples) for each point in a positive pair.
     Calculate contrastive loss on the tuple (p1,p2,hn1,hn2)
+    Based on: https://github.com/chrischoy/FCGF/blob/master/lib/trainer.py
     """
     N0, N1 = len(F0), len(F1)
     N_pos_pairs = len(positive_pairs)
@@ -31,8 +31,8 @@ def point_contrastive_loss(F0, F1, positive_pairs, config,
     # Find negatives for all F1[positive_pairs[:, 1]]
     subF0, subF1 = F0[sel0], F1[sel1]
 
-    pos_ind0 = sample_pos_pairs[:, 0]#.long()
-    pos_ind1 = sample_pos_pairs[:, 1]#.long()
+    pos_ind0 = sample_pos_pairs[:, 0]  # .long()
+    pos_ind1 = sample_pos_pairs[:, 1]  # .long()
     posF0, posF1 = F0[pos_ind0], F1[pos_ind1]
 
     D01 = pdist(posF0, subF1, dist_type='L2')
@@ -60,9 +60,10 @@ def point_contrastive_loss(F0, F1, positive_pairs, config,
     neg_loss1 = F.relu(config.point_neg_margin - D10min[mask1]).pow(2)
 
     pos_loss = pos_loss.mean()
-    neg_loss =  (neg_loss0.mean() + neg_loss1.mean()) / 2
+    neg_loss = (neg_loss0.mean() + neg_loss1.mean()) / 2
     loss = pos_loss + config.point_neg_weight * neg_loss
     return loss
 
-def point_infonce_loss(query_feats, pos_feats, pos_pairs, neg_pairs, config):# TODO
+
+def point_infonce_loss(query_feats, pos_feats, pos_pairs, neg_pairs, config):  # TODO
     return 0

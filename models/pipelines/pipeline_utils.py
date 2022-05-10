@@ -3,6 +3,7 @@ from torchsparse import SparseTensor
 from torchsparse.utils.quantize import sparse_quantize
 from torchsparse.utils.collate import sparse_collate
 
+
 def make_sparse_tensor(lidar_pc, voxel_size=0.05, return_points=False):
     # get rounded coordinates
     coords = np.round(lidar_pc[:, :3] / voxel_size)
@@ -19,6 +20,6 @@ def make_sparse_tensor(lidar_pc, voxel_size=0.05, return_points=False):
     inputs = sparse_collate([inputs])
     inputs.C = inputs.C.int()
     if return_points:
-        return inputs , feats
+        return inputs, feats
     else:
         return inputs
