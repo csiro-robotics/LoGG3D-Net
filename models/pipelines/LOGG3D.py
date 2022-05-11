@@ -15,17 +15,17 @@ class LOGG3D(nn.Module):
     def __init__(self, output_dim=256):
         super(LOGG3D, self).__init__()
 
-        self.feature_extractor = spvcnn(output_dim=16)
-        self.feature_aggregator = SOP(
+        self.spvcnn = spvcnn(output_dim=16)
+        self.sop = SOP(
             signed_sqrt=False, do_fc=False, input_dim=16, is_tuple=False)
 
     def forward(self, x):
         _, counts = torch.unique(x.C[:, -1], return_counts=True)
 
-        x = self.feature_extractor(x)
+        x = self.spvcnn(x)
         y = torch.split(x, list(counts))
         x = torch.nn.utils.rnn.pad_sequence(list(y)).permute(1, 0, 2)
-        x = self.feature_aggregator(x)
+        x = self.sop(x)
         return x, y[:2]
 
 
