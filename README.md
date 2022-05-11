@@ -22,9 +22,9 @@ We introduce a local consistency loss that can be used in an end-to-end global d
 
 ### Set up environment
 This project has been tested on a system with Ubuntu 18.04. Main dependencies include:
-- [CUDA](https://developer.nvidia.com/cuda-toolkit) >= 10.2
-- [Pytorch](https://pytorch.org/) >= 1.9
+- [Pytorch](https://pytorch.org/) = 1.10.1
 - [TorchSparse](https://github.com/mit-han-lab/torchsparse) = 1.4.0
+- [Open3d](https://github.com/isl-org/Open3D) >= 0.13.0
 
 Set up the requirments as follows:
 - Create [conda](https://docs.conda.io/en/latest/) environment with python:
@@ -32,11 +32,12 @@ Set up the requirments as follows:
 conda create -n logg3d_env python=3.9.4
 conda activate logg3d_env
 ```
-- Install PyTorch with suitable CUDA version:
+- Install PyTorch v1.10.1 with suitable cudatoolkit version. See [here](https://pytorch.org/get-started/previous-versions/#v1101):
 ```bash
-conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch
+conda install pytorch==1.10.1 torchvision==0.11.2 torchaudio==0.10.1 cudatoolkit=11.1 -c pytorch -c conda-forge
+# pytorch versions >= 1.11.0 currently have unexpected behaviour in torch.svd(). Please use and earlier version (eg. 1.10.1).
 ```
-- Install [Open3d](https://github.com/isl-org/Open3D) and [Torchpack](https://github.com/zhijian-liu/torchpack):
+- Install [Open3d](https://github.com/isl-org/Open3D), [Torchpack](https://github.com/zhijian-liu/torchpack) and [mpi4py](https://mpi4py.readthedocs.io/en/stable/tutorial.html):
 ```bash
 pip install -r requirements.txt
 ```
