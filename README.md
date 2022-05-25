@@ -9,8 +9,10 @@ This repository is an open-source implementation of the ICRA 2022 paper: [LoGG3D
 We introduce a local consistency loss that can be used in an end-to-end global descriptor learning setting to enforce consistency of the local embeddings extracted from point clouds of the same location. We demonstrate how enforcing this property in the local features contributes towards better performance of the global descriptor in 3D place recognition. We formulate our approach in an end-to-end trainable architecture called *LoGG3D-Net*. 
 
 ## News
-- [2022-02-07] Evaluation code and pretrained models released.
+- [2022-05-25] won the 2nd place at [the General Place Recognition: City-scale UGV 3D Localization](https://www.aicrowd.com/challenges/icra2022-general-place-recognition-city-scale-ugv-localization/leaderboards). 
 - [2022-05-10] Training code released.
+- [2022-02-07] Evaluation code and pretrained models released.
+
 
 ## Method overview
 - Joint constraints for local and global descriptors during training. 
