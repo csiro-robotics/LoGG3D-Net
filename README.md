@@ -1,7 +1,7 @@
 # LoGG3D-Net
 
 
-This repository is an open-source implementation of the ICRA 2022 paper: [LoGG3D-Net: Locally Guided Global Descriptor Learning for 3D Place Recognition](https://arxiv.org/abs/2109.08336) that won the 2nd place at [the General Place Recognition: City-scale UGV 3D Localization] (https://www.aicrowd.com/challenges/icra2022-general-place-recognition-city-scale-ugv-localization/leaderboards). 
+This repository is an open-source implementation of the ICRA 2022 paper: [LoGG3D-Net: Locally Guided Global Descriptor Learning for 3D Place Recognition](https://arxiv.org/abs/2109.08336) that won the 2nd place at [the General Place Recognition: City-scale UGV 3D Localization](https://www.aicrowd.com/challenges/icra2022-general-place-recognition-city-scale-ugv-localization/leaderboards). 
 
 - Paper pre-print: https://arxiv.org/abs/2109.08336
 - ICRA 2022 presentation: https://www.youtube.com/watch?v=HB6C6RHeYUU
