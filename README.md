@@ -1,7 +1,7 @@
 # LoGG3D-Net
 
 
-This repository is an open-source implementation of the ICRA 2022 paper: [LoGG3D-Net: Locally Guided Global Descriptor Learning for 3D Place Recognition](https://arxiv.org/abs/2109.08336) that won 2nd place at the [General Place Recognition: City-scale UGV 3D Localization Competition](https://www.aicrowd.com/challenges/icra2022-general-place-recognition-city-scale-ugv-localization/leaderboards). 
+This repository is an open-source implementation of the ICRA 2022 paper: [LoGG3D-Net: Locally Guided Global Descriptor Learning for 3D Place Recognition](https://arxiv.org/abs/2109.08336) that won 2nd place at the [General Place Recognition: City-scale UGV 3D Localization Competition - Round 1](https://www.aicrowd.com/challenges/icra2022-general-place-recognition-city-scale-ugv-localization/leaderboards?challenge_round_id=1161). 
 
 - Paper pre-print: https://arxiv.org/abs/2109.08336
 - ICRA 2022 presentation: https://www.youtube.com/watch?v=HB6C6RHeYUU
@@ -9,7 +9,7 @@ This repository is an open-source implementation of the ICRA 2022 paper: [LoGG3D
 We introduce a local consistency loss that can be used in an end-to-end global descriptor learning setting to enforce consistency of the local embeddings extracted from point clouds of the same location. We demonstrate how enforcing this property in the local features contributes towards better performance of the global descriptor in 3D place recognition. We formulate our approach in an end-to-end trainable architecture called *LoGG3D-Net*. 
 
 ## News
-- [2022-05-25] Won 2nd place at the [General Place Recognition: City-scale UGV 3D Localization Competition](https://www.aicrowd.com/challenges/icra2022-general-place-recognition-city-scale-ugv-localization/leaderboards). 
+- [2022-05-25] Won 2nd place at the [General Place Recognition: City-scale UGV 3D Localization Competition](https://www.aicrowd.com/challenges/icra2022-general-place-recognition-city-scale-ugv-localization/leaderboards?challenge_round_id=1161). Watch the invited talk [here](https://www.youtube.com/watch?v=xpEKOyJ7OIU&t=6503s). 
 - [2022-05-10] Training code released.
 - [2022-02-07] Evaluation code and pretrained models released.
 
