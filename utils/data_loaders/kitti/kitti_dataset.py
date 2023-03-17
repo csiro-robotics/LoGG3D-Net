@@ -62,7 +62,7 @@ class KittiDataset(PointCloudDataset):
         xyzr = np.fromfile(fname, dtype=np.float32).reshape(-1, 4)
 
         if self.gp_rem:
-            not_ground_mask = np.ones(len(xyzr), np.bool)
+            not_ground_mask = np.ones(len(xyzr), bool)
             raw_pcd = make_open3d_point_cloud(xyzr[:, :3], color=None)
             _, inliers = raw_pcd.segment_plane(0.2, 3, 250)
             not_ground_mask[inliers] = 0

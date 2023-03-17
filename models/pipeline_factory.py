@@ -30,7 +30,7 @@ if __name__ == '__main__':
     iterator = train_loader.__iter__()
     l = len(train_loader.dataset)
     for i in range(l):
-        input_batch = iterator.next()
+        input_batch = next(iterator)
         input_st = input_batch[0].cuda()
         output = model(input_st)
         print('')

@@ -126,7 +126,7 @@ if __name__ == "__main__":
     # s = iterator.size()
     l = len(test_loader.dataset)
     for i in range(l):
-        input_data = iterator.next()
+        input_data = next(iterator)
         quad = True
         if quad:
             visualize_scan_open3d(input_data[0][1][0][:, :3])

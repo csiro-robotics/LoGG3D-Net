@@ -91,20 +91,28 @@ def main():
         model.train()
 
         for i, batch in enumerate(train_loader, 0):
-            batch_st = batch[0].to('cuda:%d' % dist.local_rank())
-            if not batch[1]['pos_pairs'].ndim == 2:
-                continue
+            if cfg.train_pipeline == 'LOGG3D':
+                batch_st = batch[0].to('cuda:%d' % dist.local_rank())
+                if not batch[1]['pos_pairs'].ndim == 2:
+                    continue
+                output = model(batch_st)
+                scene_loss = loss_function(output[0], cfg)
+                running_scene_loss += scene_loss.item()
+                if cfg.point_loss_weight > 0:
+                    point_loss = point_loss_function(
+                        output[1][0], output[1][1], batch[1]['pos_pairs'], cfg)
+                    running_point_loss += point_loss.item()
+                    loss = cfg.scene_loss_weight * scene_loss + cfg.point_loss_weight * point_loss
+                else:
+                    loss = scene_loss
 
-            output = model(batch_st)
-            scene_loss = loss_function(output[0], cfg)
-            running_scene_loss += scene_loss.item()
-            if cfg.point_loss_weight > 0:
-                point_loss = point_loss_function(
-                    output[1][0], output[1][1], batch[1]['pos_pairs'], cfg)
-                running_point_loss += point_loss.item()
-                loss = cfg.scene_loss_weight * scene_loss + cfg.point_loss_weight * point_loss
-            else:
+            elif cfg.train_pipeline == 'PointNetVLAD':
+                batch_t = batch.to('cuda:%d' % dist.local_rank())
+                output = model(batch_t.unsqueeze(1))
+                scene_loss = loss_function(output, cfg)
+                running_scene_loss += scene_loss.item()
                 loss = scene_loss
+
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()

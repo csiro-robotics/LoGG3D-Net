@@ -90,7 +90,7 @@ def evaluate_sequence_reg(model, cfg):
 
     for query_idx in range(num_queries):
 
-        input_data = iterator.next()
+        input_data = next(iterator)
         prep_timer.tic()
         lidar_pc = input_data[0][0]  # .cpu().detach().numpy()
         if not len(lidar_pc) > 0:

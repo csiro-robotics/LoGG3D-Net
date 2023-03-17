@@ -39,7 +39,7 @@ class KittiSparseTupleDataset(KittiTupleDataset):
         if self.gp_rem:
             use_ransac = False
             if use_ransac:
-                not_ground_mask = np.ones(len(xyzr), np.bool)
+                not_ground_mask = np.ones(len(xyzr), bool)
                 raw_pcd = make_open3d_point_cloud(xyzr[:, :3], color=None)
                 _, inliers = raw_pcd.segment_plane(0.2, 3, 250)
                 not_ground_mask[inliers] = 0
@@ -189,7 +189,7 @@ class KittiPointSparseTupleDataset(KittiSparseTupleDataset):
         if self.gp_rem:
             use_ransac = True
             if use_ransac:
-                not_ground_mask = np.ones(len(xyzr), np.bool)
+                not_ground_mask = np.ones(len(xyzr), bool)
                 raw_pcd = make_open3d_point_cloud(xyzr[:, :3], color=None)
                 _, inliers = raw_pcd.segment_plane(0.2, 3, 250)
                 not_ground_mask[inliers] = 0

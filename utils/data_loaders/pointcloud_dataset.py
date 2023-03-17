@@ -99,7 +99,7 @@ class PointCloudDataset(torch.utils.data.Dataset):
         pc = xyzr - mean
         scale = np.max(abs(pc))
         pc = pc/scale
-        return pc
+        return pc[:,:3]
 
     def __len__(self):
         return len(self.files)
@@ -140,11 +140,10 @@ class CollationFunctionFactory:
                     contrastive_tuple.append(tuple_data)
                 elif isinstance(tuple_data, list):
                     contrastive_tuple.extend(tuple_data)
-            outputs.append(sparse_collate(contrastive_tuple))
-        if len(outputs) == 1:
-            return outputs[0]
-        else:
-            return outputs
+            # outputs.append(sparse_collate(contrastive_tuple))
+        outputs = [torch.from_numpy(ct).float() for ct in contrastive_tuple]
+        outputs = torch.stack(outputs)
+        return outputs
 
     def collate_sparse_tuple(self, list_data):
         outputs = []

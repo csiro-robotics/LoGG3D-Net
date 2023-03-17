@@ -63,7 +63,7 @@ class MulRanDataset(PointCloudDataset):
         if self.int_norm:
             xyzr[:, 3] = np.clip(xyzr[:, 3], 0, 1000) / 1000.0
         if self.gp_rem:
-            not_ground_mask = np.ones(len(xyzr), np.bool)
+            not_ground_mask = np.ones(len(xyzr), bool)
             raw_pcd = make_open3d_point_cloud(xyzr[:, :3], color=None)
             _, inliers = raw_pcd.segment_plane(0.2, 3, 250)
             not_ground_mask[inliers] = 0
