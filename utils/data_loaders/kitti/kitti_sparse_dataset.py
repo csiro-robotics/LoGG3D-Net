@@ -245,8 +245,12 @@ class KittiPointSparseTupleDataset(KittiSparseTupleDataset):
         except ValueError:
             logging.info(
                 f"Drive id:{drive_id}, query id:{query_id}, ppq:{self.positives_per_query}, num_pos:{len(positive_ids)}")
-            sel_positive_ids = random.choices(
-                positive_ids, k=self.positives_per_query)
+            # Temporary fix to handle len(positive_ids) == 0
+            if len(positive_ids) > 0:
+                sel_positive_ids = random.choices(
+                    positive_ids, k=self.positives_per_query)
+            else:
+                sel_positive_ids = [query_id for np_id in range(self.positives_per_query)]
 
         sel_negative_ids = random.sample(
             negative_ids, self.negatives_per_query)

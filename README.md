@@ -9,10 +9,11 @@ This repository is an open-source implementation of the ICRA 2022 paper: [LoGG3D
 We introduce a local consistency loss that can be used in an end-to-end global descriptor learning setting to enforce consistency of the local embeddings extracted from point clouds of the same location. We demonstrate how enforcing this property in the local features contributes towards better performance of the global descriptor in 3D place recognition. We formulate our approach in an end-to-end trainable architecture called *LoGG3D-Net*. 
 
 ## News
-- Added support for PyTorch 2.0.
-- [2022-05-25] Won 2nd place at the ICRA 2022 General Place Recognition Competition organized by AirLab, Carnegie Mellon University. Watch the invited talk [here](https://www.youtube.com/watch?v=xpEKOyJ7OIU&t=6503s). 
-- [2022-05-10] Training code released.
-- [2022-02-07] Evaluation code and pretrained models released.
+- [2023-03] LoGG3D-Net has been extended for 6-DoF metric localization in SpectralGV [RA-L 2023](https://arxiv.org/abs/2210.04432).
+- [2023-03] Added support for PyTorch 2.0.
+- [2022-05] Won 2nd place at the ICRA 2022 General Place Recognition Competition organized by AirLab, Carnegie Mellon University. Watch the invited talk [here](https://www.youtube.com/watch?v=xpEKOyJ7OIU&t=6503s). 
+- [2022-05] Training code released.
+- [2022-02] Evaluation code and pretrained models released.
 
 
 ## Method overview
@@ -63,6 +64,7 @@ wget -O checkpoints.zip https://cloudstor.aarnet.edu.au/plus/s/G9z6VzR72TRm09S/d
 unzip checkpoints.zip
 ```
 - Download the [KITTI odometry dataset](http://www.cvlibs.net/datasets/kitti/eval_odometry.php), the [MulRan dataset](https://sites.google.com/view/mulran-pr/dataset) and set the paths in ```config/eval_config.py```.
+- For the KITTI odometry dataset, we are using the refined ground-truth poses provided in [SemanticKITTI](http://semantic-kitti.org/dataset.html#download).
 - For the MulRan dataset, create ```scan_poses.csv``` files for each sequence using:
 ```bash
 python ./utils/data_utils/mulran_save_scan_poses.py

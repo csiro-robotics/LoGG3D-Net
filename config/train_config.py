@@ -21,7 +21,7 @@ trainer_arg.add_argument('--resume_training', type=str2bool, default=False)
 trainer_arg.add_argument('--resume_checkpoint', type=str, default='')
 
 # Batch setting
-trainer_arg.add_argument('--batch_size', type=int, default=1)
+trainer_arg.add_argument('--batch_size', type=int, default=1) # Batch size is limited to 1.
 trainer_arg.add_argument('--train_num_workers', type=int,
                          default=8)  # per gpu in dist. try 8
 
