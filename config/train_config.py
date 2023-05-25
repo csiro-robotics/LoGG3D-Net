@@ -104,6 +104,12 @@ data_arg.add_argument('--mulran_data_split', type=dict, default={
 
 # Data loader configs
 data_arg.add_argument('--train_phase', type=str, default="train")
+data_arg.add_argument('--train_pickles', type=dict, default={
+    'new_dataset': "/path/to/new_dataset/training_both_5_50.pickle",
+})
+data_arg.add_argument('--gp_vals', type=dict, default={
+    'apollo': 1.6, 'kitti':1.5, 'mulran':0.9
+})
 data_arg.add_argument('--val_phase', type=str, default="val")
 data_arg.add_argument('--test_phase', type=str, default="test")
 data_arg.add_argument('--use_random_rotation', type=str2bool, default=False)
@@ -119,8 +125,10 @@ misc_arg = add_argument_group('Misc')
 misc_arg.add_argument('--experiment_name', type=str, default='run')
 misc_arg.add_argument('--job_id', type=str, default='0')
 misc_arg.add_argument('--save_model_after_epoch', type=str2bool, default=True)
+misc_arg.add_argument('--eval_model_after_epoch', type=str2bool, default=False)
 misc_arg.add_argument('--out_dir', type=str, default='logs')
 misc_arg.add_argument('--loss_log_step', type=int, default=10)
+misc_arg.add_argument('--checkpoint_epoch_step', type=int, default=3)
 
 
 def get_config():
