@@ -9,6 +9,7 @@ This repository is an open-source implementation of the ICRA 2022 paper: [LoGG3D
 We introduce a local consistency loss that can be used in an end-to-end global descriptor learning setting to enforce consistency of the local embeddings extracted from point clouds of the same location. We demonstrate how enforcing this property in the local features contributes towards better performance of the global descriptor in 3D place recognition. We formulate our approach in an end-to-end trainable architecture called *LoGG3D-Net*. 
 
 ## News
+- [2023-05] Added new general dataloaders to help with training on custom datasets (such as [Wild-Places](https://github.com/csiro-robotics/Wild-Places)).
 - [2023-03] LoGG3D-Net has been extended for 6-DoF metric localization in [SpectralGV](https://github.com/csiro-robotics/SpectralGV) RA-L 2023.
 - [2023-03] Added support for PyTorch 2.0.
 - [2022-05] Won 2nd place at the ICRA 2022 General Place Recognition Competition organized by AirLab, Carnegie Mellon University. Watch the invited talk [here](https://www.youtube.com/watch?v=xpEKOyJ7OIU&t=6503s). 
