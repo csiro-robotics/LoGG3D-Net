@@ -135,9 +135,9 @@ If you find this work usefull in your research, please consider citing:
 @inproceedings{vid2022logg3d,
   title={LoGG3D-Net: Locally Guided Global Descriptor Learning for 3D Place Recognition},
   author={Vidanapathirana, Kavisha and Ramezani, Milad and Moghadam, Peyman and Sridharan, Sridha and Fookes, Clinton},
-  booktitle={IEEE International Conference on Robotics and Automation (ICRA)},
-  year={2022},
-  eprint={arXiv preprint arXiv:2109.08336}
+  booktitle={2022 International Conference on Robotics and Automation (ICRA)},
+  pages={2215--2221},
+  year={2022}
 }
 ```
 
